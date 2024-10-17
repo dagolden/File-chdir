@@ -1,21 +1,20 @@
 package File::chdir;
-use 5.004;
+use 5.006;
 use strict;
-use vars qw($VERSION @ISA @EXPORT $CWD @CWD);
 # ABSTRACT: a more sensible way to change directories
 
 our $VERSION = '0.1012';
 
 require Exporter;
-@ISA = qw(Exporter);
-@EXPORT = qw(*CWD);
+our @ISA = qw(Exporter);
+our @EXPORT = qw(*CWD);
 
 use Carp;
 use Cwd 3.16;
 use File::Spec::Functions 3.27 qw/canonpath splitpath catpath splitdir catdir/;
 
-tie $CWD, 'File::chdir::SCALAR' or die "Can't tie \$CWD";
-tie @CWD, 'File::chdir::ARRAY'  or die "Can't tie \@CWD";
+tie our $CWD, 'File::chdir::SCALAR' or die "Can't tie \$CWD";
+tie our @CWD, 'File::chdir::ARRAY'  or die "Can't tie \@CWD";
 
 sub _abs_path {
     # Otherwise we'll never work under taint mode.
